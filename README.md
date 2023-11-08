@@ -6,6 +6,11 @@ The Lambda layer and Docker image for PHP-FPM work with [AWS Lambda Web Adapter]
 
 AWS Lambda PHP Layers work with Lambda functions packaged as both docker images and Zip packages.
 
+## Images
+
+* php-56: for the experience when a client cannot yet be migrated and we need to
+  have something that can run it, yes, sad but true.
+
 ### Docker image
 
 ```dockerfile
