@@ -12,70 +12,71 @@ RUN cd /tmp && \
     cd php-$PHP_VERSION && \
     ./buildconf --force && \
     ./configure \
-      --prefix=/opt/php \
-      --with-config-file-path=/opt/php \
       --bindir=/opt/php/bin \
-      --sbindir=/opt/php/bin \
-      --with-config-file-scan-dir=/opt/php/php.d \
-      --localstatedir=/tmp \
-      --mandir=/tmp \
       --docdir=/tmp \
-      --htmldir=/tmp \
       --dvidir=/tmp \
-      --pdfdir=/tmp \
-      --psdir=/tmp \
-      --enable-shared=yes \
+      --enable-bcmath=shared \
+      --enable-calendar=shared \
       --enable-cli=shared \
-      --enable-fpm=shared \
-      --with-fpm-user=nobody \
-      --with-fpm-group=nobody \
-      --with-bz2=shared \
-      --with-pear=shared \
       --enable-ctype=shared \
-      --with-curl=shared \
       --enable-dom=shared \
       --enable-exif=shared \
       --enable-fileinfo=shared \
       --enable-filter=shared \
+      --enable-fpm=shared \
+      --enable-ftp=shared \
       --enable-gd=shared \
-      --with-gettext=shared \
-      --with-iconv=shared \
+      --enable-intl=shared \
       --enable-mbstring=shared \
-      --enable-opcache=shared \
-      --with-openssl=shared \
-      --enable-pcntl=shared \
-      --with-external-pcre=shared \
-      --enable-pdo=shared \
-      --with-pdo-mysql=shared \
       --enable-mysqlnd=shared \
-      --with-pdo-sqlite=shared \
-      --with-mysqli=shared \
+      --enable-opcache=shared \
+      --enable-pcntl=shared \
+      --enable-pdo=shared \
       --enable-phar=shared \
       --enable-posix=shared \
-      --with-readline=shared \
       --enable-session=shared \
+      --enable-shared=yes \
+      --enable-shmop=shared \
+      --enable-simplexml=shared \
       --enable-soap=shared \
       --enable-sockets=shared \
       --enable-sysvsem=shared\
       --enable-sysvshm=shared \
       --enable-tokenizer=shared\
-      --with-libxml=shared \
-      --enable-simplexml=shared \
       --enable-xml=shared \
       --enable-xmlreader=shared \
       --enable-xmlwriter=shared \
+      --htmldir=/tmp \
+      --localstatedir=/tmp \
+      --mandir=/tmp \
+      --pdfdir=/tmp \
+      --prefix=/opt/php \
+      --psdir=/tmp \
+      --sbindir=/opt/php/bin \
+      --with-bz2=shared \
+      --with-config-file-path=/opt/php \
+      --with-config-file-scan-dir=/opt/php/php.d \
+      --with-curl=shared \
+      --with-external-pcre=shared \
+      --with-fpm-group=nobody \
+      --with-fpm-user=nobody \
+      --with-gettext=shared \
+      --with-iconv=shared \
+      --with-libedit=shared \
+      --with-libxml=shared \
+      --with-mysql=shared \
+      --with-mysqli=shared \
+      --with-openssl=shared \
+      --with-pdo-mysql=shared \
+      --with-pdo-pgsql=shared \
+      --with-pdo-sqlite=shared \
+      --with-pear=shared \
+      --with-pgsql=shared \
+      --with-readline=shared \
+      --with-xmlrpc=shared \
       --with-xsl=shared \
-      --enable-ftp=shared \
-      --enable-bcmath=shared \
       --with-zip=shared \
       --with-zlib=shared \
-      --with-xmlrpc=shared \
-      --enable-shmop=shared \
-      --with-libedit=shared \
-      --enable-calendar=shared \
-      --enable-intl=shared \
-      --with-pdo-pgsql=shared \
-      --with-pgsql=shared \
       && \
     make -j$(cat /proc/cpuinfo | grep "processor" | wc -l) && \
     make install && \
@@ -88,14 +89,14 @@ RUN cd /tmp && \
     /lambda-layer change_ext_dir && \
     /lambda-layer php_enable_extensions && \
     \
-    cd /tmp && \
-    git clone --recursive https://github.com/awslabs/aws-crt-php.git && \
-    cd aws-crt-php &&  \
-    phpize && \
-    ./configure && \
-    make -j$(cat /proc/cpuinfo | grep "processor" | wc -l) && \
-    make install && \
-    \
+#    cd /tmp && \
+#    git clone --recursive --branch v1.2.1 https://github.com/awslabs/aws-crt-php.git && \
+#    cd aws-crt-php &&  \
+#    phpize && \
+#    ./configure && \
+#    make -j$(cat /proc/cpuinfo | grep "processor" | wc -l) && \
+#    make install && \
+#    \
     /lambda-layer php_enable_extensions && \
     /lambda-layer php_copy_libs && \
     \
@@ -108,6 +109,8 @@ RUN cd /tmp && \
 ADD nginx/conf/nginx.conf      /opt/nginx/conf/nginx.conf
 ADD php/php.ini                /opt/php/php.ini
 ADD php/etc/php-fpm.conf       /opt/php/etc/php-fpm.conf
+ADD mysql/my.cnf               /etc/my.cnf
+ADD mysql/my.cnf               /opt/mysql/my.cnf
 
 # code files
 COPY app /var/task/app

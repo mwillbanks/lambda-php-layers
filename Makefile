@@ -90,17 +90,12 @@ nginx:
 	ARCH=x86_64 IMAGE=nginx TAG=layer.1.23.2023.3.13.1 ./artisan tests_run
 
 build:
-	docker stop beta_local || true && docker rm beta_local || true
-	docker rmi --force public.ecr.aws/awsguru/php-beta:local-x86_64
-	docker build ./src/php-beta-fpm-nginx \
+	docker build ./src/php-56-fpm-nginx \
+			     --ulimit nofile=100000:100000 \
 			     --platform=linux/x86_64 \
 			     --build-arg ARCH=x86_64 \
-			     --build-arg IMAGE=php-beta \
-			     --build-arg TAG=local \
-			     --build-arg DEVEL_TAG=devel.2023.3.13.1 \
-			     --tag public.ecr.aws/awsguru/php-beta:local-x86_64 \
-			     --file ./src/php-beta-fpm-nginx/prod.Dockerfile
-	docker run -it --name beta_local -p 127.0.0.1:8001:8080/tcp public.ecr.aws/awsguru/php-beta:local-x86_64 bash
-	docker stop beta_local || true && docker rm beta_local || true
-	docker rmi --force public.ecr.aws/awsguru/php-beta:local-x86_64
-
+			     --build-arg IMAGE=php-56-nginx-fpm \
+			     --build-arg TAG=php-56-nginx-fpm \
+			     --build-arg DEVEL_TAG=php-56-nginx-fpm \
+					 -t php-56-nginx-fpm \
+			     --file ./src/php-56-fpm-nginx/devel.Dockerfile

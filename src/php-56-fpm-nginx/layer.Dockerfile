@@ -1,8 +1,8 @@
-FROM public.ecr.aws/awsguru/devel AS devel
-FROM public.ecr.aws/lambda/provided:al2 AS al2
-FROM public.ecr.aws/lambda/provided AS provided
-FROM public.ecr.aws/lambda/java:11 AS java11
-FROM public.ecr.aws/sam/emulation-java11 AS emulation
+FROM public.ecr.aws/awsguru/devel:2023.3.13.1 AS devel
+FROM public.ecr.aws/lambda/provided:al2.2023.12.22.14 AS al2
+FROM public.ecr.aws/lambda/provided:2024-01-05 AS provided
+FROM public.ecr.aws/lambda/java:11.2023.12.29.16 AS java11
+FROM public.ecr.aws/sam/emulation-java11:2023-12-29 AS emulation
 FROM public.ecr.aws/awsguru/aws-lambda-adapter:0.7.0 AS adapter
 FROM php-56-nginx-fpm:latest AS builder
 

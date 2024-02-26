@@ -1,11 +1,11 @@
 ARG DEVEL_TAG
 ARG ARCH
 
-FROM public.ecr.aws/awsguru/devel AS devel
-FROM public.ecr.aws/lambda/provided:al2 AS al2
-FROM public.ecr.aws/lambda/provided AS provided
-FROM public.ecr.aws/lambda/java:11 AS java11
-FROM public.ecr.aws/sam/emulation-java11 AS emulation
+FROM public.ecr.aws/awsguru/devel:0.7.2 AS devel
+FROM public.ecr.aws/lambda/provided:al2.2024.01.05.14 AS al2
+FROM public.ecr.aws/lambda/provided:2024-01-05 AS provided
+FROM public.ecr.aws/lambda/java:11.2024.01.05.16 AS java11
+FROM public.ecr.aws/sam/emulation-java11:2024-01-05 AS emulation
 FROM public.ecr.aws/awsguru/aws-lambda-adapter:0.7.0 AS adapter
 FROM public.ecr.aws/awsguru/php-beta:$DEVEL_TAG-$ARCH AS builder
 
